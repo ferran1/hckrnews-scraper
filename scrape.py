@@ -1,7 +1,14 @@
-from selenium import webdriver
+import requests
 from bs4 import BeautifulSoup
 
-driver = webdriver.Chrome("C:/Users/Eigenaar/AppData/Local/Google/Chrome/Application/chromedriver.exe")
-driver.get("https://hckrnews.com/")
+result = requests.get("https://hckrnews.com")
 
-print("Start scraping hckrnews.com")
+print(result.status_code)
+
+html = result.content
+
+soup = BeautifulSoup(html, 'lxml')
+
+links = soup.find_all("a")
+
+print(links)
