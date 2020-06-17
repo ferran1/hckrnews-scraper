@@ -1,22 +1,14 @@
-from selenium import webdriver
+import requests
 from bs4 import BeautifulSoup
 
-driver = webdriver.Chrome("C:/Users/Eigenaar/AppData/Local/Google/Chrome/Application/chromedriver.exe")
-driver.get("https://hckrnews.com/")
+result = requests.get("https://hckrnews.com")
 
-content = driver.page_source
-soup = BeautifulSoup(content, features="html.parser")
+print(result.status_code)
 
-for row in soup.find_all("li", {"class": "entry row"}):
+html = result.content
 
-    commentElement = row.find("span", {"class": "comments"})
-    pointsElement = row.find("span", {"class": "points"})
-    titleElement = row.find("a", {"class": "story", "data-date": None})
+soup = BeautifulSoup(html, 'lxml')
 
-    if commentElement is not None and commentElement.text != "":
-        comments = commentElement.text
-        points = pointsElement.text
-        title = titleElement.text
-        print(comments + ", " + points + ", TITLE: " + title)
+links = soup.find_all("a")
 
-print("Start scraping hckrnews.com")
+print(links)
