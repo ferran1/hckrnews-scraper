@@ -10,6 +10,8 @@ html = result.content
 soup = BeautifulSoup(html, 'lxml')
 
 
+# artciles which are declared DEAD have a 'dead' value in the class attribute
+# return False if article is declared DEAD else True
 def is_not_dead(element):
     return 'dead' not in element['class']
 
