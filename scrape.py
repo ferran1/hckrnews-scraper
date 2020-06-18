@@ -16,15 +16,18 @@ def is_not_dead(element):
     return 'dead' not in element['class']
 
 
-for row in soup.find_all("li", class_="entry row"):
+articles = soup.find_all("a", class_="link span15 story")
 
-    comment_element = row.find("span", class_="comments")
-    points_element = row.find("span", class_="points")
-    title_element = row.find("a", {"class": "story", "data-date": None})
+# Keywords to look for in the titles
+keywords = ["Ubuntu", "Microservices", "Encryption", "Academia"]
 
-    if comment_element and points_element and title_element is not None \
-            and is_not_dead(title_element):
-        comments = comment_element.text
-        points = points_element.text
-        title = title_element.text
-        link = title_element["href"]
+for article in articles:
+    for keyword in keywords:
+        if keyword in article.text:
+            title = article.text
+            url = article.attrs['href']
+            if title and url is not None \
+                    and is_not_dead(title):
+                print(title)
+                print(url)
+                # Send mail
