@@ -9,6 +9,17 @@ html = result.content
 
 soup = BeautifulSoup(html, 'lxml')
 
-links = soup.find_all("a")
+articles = soup.find_all("a", class_="link span15 story")
 
-print(links)
+# Keywords to look for in the titles
+keywords = ["Ubuntu", "Microservices", "Encryption", "Academia"]
+
+articles_found = []
+
+for article in articles:
+    for keyword in keywords:
+        if keyword in article.text:
+            articles_found.append([article.text, article.attrs['href']])
+
+# print(articles)
+print(articles_found)
